@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ERP.Models.VacationRequest>
+
+
+@{
+    ViewData["Title"] = "جميع الطلبات";
+}
+
+
+<table id="file-datatable" class="table table-striped table-bordered text-nowrap key-buttons border-bottom datatable ">
+    <thead>
+        <tr>
+            <th>
+                تاريخ البداية
+            </th>
+            <th>
+                تاريخ النهاية
+            </th>
+            <th>
+                عدد الأيام
+            </th>
+                     
+            <th>
+الموظف
+            </th>
+            <th>
+              نوع الاجازة
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => @item.StartDate)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OffDaysCount)
+            </td>
+         
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VacationType.Name)
+            </td>
+                <td>
+
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn btn btn-secondary   btn-wave waves-effect waves-light">تعديل</a>
+
+                    <a href="javascript:void(0);" onclick="fillRequiredDataForDelete(@item.Id,'/VacationTypes/RemoveByAjax')" data-id="@item.Id" class="btn btn-sm btn btn btn-danger btn-wave waves-effect waves-light" title="Delete" data-bs-target="#confirmDeleteModal" data-bs-toggle="modal"> حذف</a>
+
+                </td>
+        </tr>
+}
+    </tbody>
+</table>

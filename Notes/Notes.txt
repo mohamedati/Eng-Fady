@@ -1,0 +1,19 @@
+﻿Force Scaffold
+===============
+Scaffold-DbContext "Server=(localdb)\MSSQLLocalDB;Database=ERPServices;Trusted_Connection=True;encrypt=false;" Microsoft.EntityFrameworkCore.SqlServer -force -OutputDir Models
+
+
+
+Default Admin Creds.
+===============
+admin
+@Google@2025@
+
+
+Users Creds.
+===============
+employee1@gmail.com
+@Google@2025@
+
+employee2@gmail.com
+@Google@2025@

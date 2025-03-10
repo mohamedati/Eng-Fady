@@ -1,0 +1,134 @@
+﻿@model ERP.Models.VacationRequest
+
+@{
+    ViewData["Title"] = "طلب أجازة ابوية";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create" id="creationForm" class="needs-validation" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="VacationTypeId" value="@ViewBag.VacationTypeId" /> @* هنا يتم تحديد نوع الاجازة *@
+            <div class="alert alert-danger fs-12 d-flex align-items-center" role="alert">
+                <i class="me-1 ti ti-alert-triangle text-danger fs-17"></i>
+                لا يمكنك تقديم الأجازة بأثر رجعى
+            </div>
+            <div class="alert alert-danger fs-12 d-flex align-items-center" role="alert">
+                <i class="me-1 ti ti-alert-triangle text-danger fs-17"></i>
+                رصيد الاجازات الاجمالى سيتغير بعد التمتع بالاجازة
+            </div>
+
+            <div class="row ">
+                <div class="col-12 col-md-4 col-xl-3">
+                    <label asp-for="StartDate" class="control-label">تاريخ البداية</label>
+                    <input asp-for="StartDate" type="date" class="form-control" required />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-4 col-xl-3">
+                    <label asp-for="EndDate" class="control-label">تاريخ النهاية</label>
+                    <input asp-for="EndDate" type="date" class="form-control" required />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4 col-xl-3">
+                <label asp-for="OffDaysCount" class="control-label">عدد الأيام</label>
+                <input asp-for="OffDaysCount" class="form-control" readonly />
+                <span asp-validation-for="OffDaysCount" class="text-danger"></span>
+            </div>
+
+
+            <div class="row flex-column mt-5">
+
+                <div class="col-6 alert alert-danger fs-12 d-flex align-items-center" role="alert">
+                    <i class="me-1 ti ti-alert-triangle text-danger fs-17"></i>
+                    حجم الملف لايزيد عن 2 ميجا
+                </div>
+                <div class="col-12 col-md-4 col-xl-3">
+                    <label asp-for="ReportUrl" class="control-label">ارفاق التقرير</label>
+                    <input asp-for="ReportUrl" type="file" class="form-control" required />
+                    <span asp-validation-for="ReportUrl" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-12 pt-5">
+                <input type="submit" value="حفظ" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary">عرض الكل</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const startDateInput = document.getElementById('StartDate');
+            const endDateInput = document.getElementById('EndDate');
+            const offDaysCountInput = document.getElementById('OffDaysCount');
+            const form = document.getElementById('vacationForm');
+
+            // Function to check if a day is Friday (5) or Saturday (6)
+            function isWeekend(date) {
+                const day = date.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+                return day === 5 || day === 6; // Friday = 5, Saturday = 6
+            }
+
+            // Function to calculate the difference between two dates, excluding weekends
+            function calculateOffDaysCount(startDate, endDate) {
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                let count = 0;
+
+                // Loop through each day between start and end dates
+                for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
+                    if (!isWeekend(date)) {
+                        count++; // Increment count if it's not a weekend
+                    }
+                }
+
+                return count;
+            }
+
+            // Validate EndDate and calculate OffDaysCount
+            function validateAndCalculate() {
+                const startDate = startDateInput.value;
+                const endDate = endDateInput.value;
+
+                if (startDate && endDate) {
+                    const start = new Date(startDate);
+                    const end = new Date(endDate);
+
+                    // Ensure EndDate is after StartDate
+                    if (end < start) {
+                                Swal.fire('خطأ!','تاريخ النهاية يجب أن يكون بعد تاريخ البداية.','error');
+                            endDateInput.value = ''; // Clear the EndDate input
+                        offDaysCountInput.value = ''; // Clear the OffDaysCount input
+                        return false; // Prevent form submission
+                    }
+
+                    // Calculate OffDaysCount, excluding weekends
+                    const offDaysCount = calculateOffDaysCount(startDate, endDate);
+                    offDaysCountInput.value = offDaysCount;
+                }
+                return true; // Allow form submission
+            }
+
+            // Attach event listeners
+            startDateInput.addEventListener('change', validateAndCalculate);
+            endDateInput.addEventListener('change', validateAndCalculate);
+
+            // Validate before form submission
+            form.addEventListener('submit', function (event) {
+                if (!validateAndCalculate()) {
+                    event.preventDefault(); // Prevent form submission if validation fails
+                }
+            });
+        });
+    </script>
+}

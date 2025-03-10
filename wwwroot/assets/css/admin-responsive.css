@@ -1,0 +1,9 @@
+﻿
+@media only screen and (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+}
+aside {
+  width: 100%;
+}
+}

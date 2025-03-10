@@ -1,0 +1,277 @@
+﻿<!DOCTYPY html>
+<html>
+
+<head>
+  <title>@ViewData["Title"] - ERP</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-v4-rtl/4.6.2-1/css/bootstrap-rtl.min.css" integrity="sha512-WxHTBJz83yMvF4RaULb859Uc22mU124Dl8p8UfQVme5On35uLQm7YKwrK30dyf4HqCkrZEfmcqEod34DrWzD9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/admin-responsive.css">
+    <link href="/assets/fonts/remixicon.css" rel="stylesheet" />
+    <!-- css -->
+
+</head>
+
+<body>
+    <!-- header -->
+    <header>
+        <ul class="header-icons">
+            <li title=""><a><i class="fa fa-gear"></i></a></li>
+            <li title=""><a><i class="fa fa-phone"></i></a></li>
+            <li title=""><a><i class="fa fa-envelope"></i></a></li>
+            <li title=""><a><i class="fa fa-bell"></i></a></li>
+            <li class="lang" title=""><a><i class="ri-global-line"></i></a></li>
+        </ul>
+        <div class="header-user" id="userMenu">
+            <img src="/assets/img/user.png" alt="User Avatar">
+            <span class="caret"></span>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <ul>
+                    <li><i class="ri-user-line"></i><a href="#profile">اسم المستخدم</a></li>
+                    <li><i class="ri-logout-box-r-line"></i><a href="#logout">تسجيل الخروج</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!-- header -->
+    <!-- main -->
+    <main class="start">
+        <div class="dashboard">
+
+            <!-- aside -->
+            <partial name="_sidebar.cshtml" />
+          
+            <!-- aside -->
+            <!-- main-section -->
+
+            <section class="main-section">
+                <div class="main-content">
+                    <!-- head -->
+                    <div class="table-head">
+                        <h3 class="page-title"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  @ViewData["Title"] </h3>
+
+                        <div class="btns">
+                            <button type="button" class="btn btn-primary table-add-new"><i class="fa fa-arrow-left"></i><span>الرجوع للخلف</span></button>
+                        </div>
+
+                    </div>
+                    <!-- head -->
+                    <div class="page">
+                 @RenderBody()
+
+                    </div>
+
+
+                </div>
+
+            </section>
+            <!-- main-section -->
+            <partial name="_ConfirmDeleteModal.cshtml" />
+
+        </div>
+    </main>
+    <!-- main -->
+    <!-- script -->
+    <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/admin-scripts.js"></script>
+    <script src="/assets/js/sweetalert2@11.js"></script>
+    <!-- FORMVALIDATION JS -->
+    <script src="/assets/js/form-validation.js"></script>
+    <script src="~/assets/js/form-validation.js"></script>
+
+
+    <!-- DATA TABLE JS-->
+
+    <script src="/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/plugins/datatable/js/dataTables.bootstrap5.js"></script>
+    <script src="/assets/plugins/datatable/js/dataTables.buttons.min.js"></script>
+    <script src="/assets/plugins/datatable/js/buttons.bootstrap5.min.js"></script>
+
+    <script src="/assets/plugins/datatable/js/jszip.min.js"></script>
+
+    <script src="/assets/plugins/datatable/pdfmake/pdfmake.min.js"></script>
+
+    <script src="/assets/plugins/datatable/pdfmake/vfs_fonts.js"></script>
+
+    <script src="/assets/plugins/datatable/js/buttons.html5.min.js"></script>
+
+    <script src="/assets/plugins/datatable/js/buttons.print.min.js"></script>
+
+    <script src="/assets/plugins/datatable/js/buttons.colVis.min.js"></script>
+
+    <script src="/assets/plugins/datatable/dataTables.responsive.min.js"></script>
+
+    <script src="/assets/plugins/datatable/responsive.bootstrap5.min.js"></script>
+
+
+    <script>
+         var table = $('.datatable').DataTable({
+             "aLengthMenu": [
+                 [5, 10, 25, -1],
+                 [5, 10, 25, "All"]
+             ],
+             "iDisplayLength": 10,
+             buttons: [
+                 // buttons configuration with Font Awesome icons
+                 {
+                     extend: 'copy',
+                     text: '<i class="fas fa-copy"></i> نسخ',
+                 },
+                 {
+                     extend: 'csv',
+                     text: '<i class="fas fa-file-csv"></i> CSV',
+                 },
+                 {
+                     extend: 'excel',
+                     text: '<i class="fas fa-file-excel"></i> تصدير الى إكسيل',
+                 },
+                 // {
+                 //     extend: 'pdf',
+                 //     text: '<i class="fas fa-file-pdf"></i> PDF',
+                 // },
+                 {
+                     extend: 'print',
+                     text: '<i class="fas fa-print"></i> طباعة',
+                 },
+                 {
+                     extend: 'colvis',
+                     text: '<i class="fas fa-columns"></i> إختر الأعمدة',
+                 },
+             ],
+             "language": {
+                 "sProcessing": "جارٍ التحميل...",
+                 "processing": true,
+                 "sLengthMenu": "أظهر _MENU_ مدخلات",
+                 "sZeroRecords": "لم يعثر على أية سجلات",
+                 "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                 "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                 "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                 "sInfoPostFix": "",
+                 "sSearch": "ابحث:",
+                 "scrollX": "100%",
+                 "oPaginate": {
+                     "sFirst": "الأول",
+                     "sPrevious": "السابق",
+                     "sNext": "التالي",
+                     "sLast": "الأخير"
+                 }
+             }
+                        // Call the function once the page is loaded
+
+         });
+         table.buttons().container()
+             .appendTo('#file-datatable_wrapper .col-md-6:eq(0)');
+        // reorderTable();
+
+         //______Select2
+         $('.select2').select2({
+             minimumResultsForSearch: Infinity
+         });
+
+
+    </script>
+
+
+    <script>
+                function validateAttachmentExtensions(input, maxSizeMB) {
+                    const allowedExtensions = ['.pdf', '.docx', '.doc', '.png', '.jpg', '.jpeg'];
+                    const files = input.files;
+                    const maxSize = maxSizeMB * 1024 * 1024; // Convert MB to bytes
+
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase(); // Get file extension
+
+                        // Check if file extension is valid
+                        if (!allowedExtensions.includes(fileExtension)) {
+                            Swal.fire('خطأ', 'الملفات المسموح بها هي ' + allowedExtensions.join(', '), 'error');
+                            input.value = ''; // Reset the file input
+                            return;
+                        }
+
+                        // Check if file size exceeds max size
+                        if (file.size > maxSize) {
+                            Swal.fire('خطأ', 'الحجم المسموح به هو ' + maxSizeMB + ' MB', 'error');
+                            input.value = ''; // Reset the file input
+                            return;
+                        }
+                    }
+                }
+
+        function validateDocumentsExtensions(input, maxSizeMB) {
+            const allowedExtensions = ['.pdf', '.docx', '.doc', '.pptx'];
+            const files = input.files;
+            const maxSize = maxSizeMB * 1024 * 1024; // Convert MB to bytes
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase(); // Get file extension
+
+                // Check if file extension is valid
+                if (!allowedExtensions.includes(fileExtension)) {
+                    Swal.fire('خطأ', 'الملفات المسموح بها هي ' + allowedExtensions.join(', '), 'error');
+                    input.value = ''; // Reset the file input
+                    return;
+                }
+
+                // Check if file size exceeds max size
+                if (file.size > maxSize) {
+                    Swal.fire('خطأ', 'الحجم المسموح به هو ' + maxSizeMB + ' MB', 'error');
+                    input.value = ''; // Reset the file input
+                    return;
+                }
+            }
+        }
+        function validateImagesExtensions(input, maxSizeMB, inputImageId) {
+            const allowedExtensions = ['.png', '.jpg', '.jpeg'];
+            const files = input.files;
+            const maxSize = maxSizeMB * 1024 * 1024; // Convert MB to bytes
+
+            // Get the image preview element
+            const imagePreview = document.getElementById(inputImageId);
+            imagePreview.style.display = 'none'; // Hide the preview initially
+
+            if (files.length === 0) {
+                return; // Exit if no file is selected
+            }
+
+            const file = files[0]; // Get the first file selected
+            const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase(); // Get file extension
+
+            // Check if file extension is valid
+            if (!allowedExtensions.includes(fileExtension)) {
+                Swal.fire('خطأ', 'الملفات المسموح بها هي ' + allowedExtensions.join(', '), 'error');
+                input.value = ''; // Reset the file input
+                return;
+            }
+
+            // Check if file size exceeds max size
+            if (file.size > maxSize) {
+                Swal.fire('خطأ', 'الحجم المسموح به هو ' + maxSizeMB + ' MB', 'error');
+                input.value = ''; // Reset the file input
+                return;
+            }
+
+            // If the file passes the checks, display the image preview
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result; // Set the image preview to the selected file
+                imagePreview.style.display = 'block'; // Show the image preview
+            };
+            reader.readAsDataURL(file); // Read the file as a Data URL to display the preview
+        }
+
+    </script>
+    <!-- script -->
+    @RenderSection("Scripts",false)
+</body>
+
+</html>

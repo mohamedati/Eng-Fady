@@ -1,0 +1,188 @@
+﻿@model ERP.ViewModels.CreateMandateFormViewModel
+@{
+	ViewData["Title"] = "طلب انتداب";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create" id="creationForm" class="needs-validation" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="form-group col-12 col-md-4 col-xl-3">
+                    <label asp-for="TaskId" class="form-label control-label mt-4">المهمة</label>
+                    <select asp-for="TaskId" class="form-control" asp-items="ViewBag.TaskId">
+                        <option value="">اختر المهمة</option>
+                    </select>
+                    <span asp-validation-for="TaskId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                 <div class="col-12 col-md-6 col-xl-3"> 
+                     <label asp-for="TaskDescription" class="control-label">وصف المهمة</label>
+                     <textarea asp-for="TaskDescription" type="text" class="form-control" required autofocus></textarea>
+                     <span asp-validation-for="TaskDescription" class="text-danger"></span> 
+                 </div> 
+                <div class="col-12 col-md-6 col-xl-3">
+                    <label asp-for="MandateDestination" class="control-label">جهة الانتداب</label>
+                    <input asp-for="MandateDestination" type="text" class="form-control" required />
+                    <span asp-validation-for="MandateDestination" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    <label asp-for="CountryId" class="form-label control-label mt-4">الدولة</label>
+                    <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId">
+						<option value="">اختر الدولة</option>
+                    </select>
+                    <span asp-validation-for="CountryId" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 col-xl-3 mt-4">
+                    <label asp-for="City" class="control-label">المدينة</label>
+                    <input asp-for="City" type="text" class="form-control" required />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-4 col-xl-3 d-flex flex-column mt-4">
+			            <label class="control-label">انتداب بالصفة الإدارية</label>
+                        <input type="checkbox" style="width:20px"/> 
+                </div>
+                <div class="form-group col-12 col-md-4 col-xl-3">
+                    <label asp-for="EntitlementTypeId" class="form-label control-label mt-4">نوع الاستحقاق</label>
+                     <select asp-for="EntitlementTypeId" class ="form-control" asp-items="ViewBag.EntitlementTypeId">
+                        <option value="">اختر نوع الاستحقاق</option>
+                     </select>
+                    <span asp-validation-for="EntitlementTypeId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-4 col-xl-3">
+                    <label asp-for="StartDate" class="control-label">تاريخ البداية</label>
+                    <input asp-for="StartDate" type="date" class="form-control" required />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-4 col-xl-3">
+                    <label asp-for="EndDate" class="control-label">تاريخ النهاية</label>
+                    <input asp-for="EndDate" type="date" class="form-control" required />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+
+                </div>
+                <div class="col-12 col-md-4 col-xl-3">
+                    <label asp-for="OffDaysCount" class="control-label">عدد الأيام</label>
+                    <input asp-for="OffDaysCount" class="form-control" readonly />
+                    <span asp-validation-for="OffDaysCount" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mt-3">
+                    <div class="d-flex align-items-center justify-content-start">
+                        <label class="control-label">إرفاق التقرير</label>
+                        <small class="form-text" style="color:red;margin-right: 10px">(PDF File حجم الملف لايزيد عن 2 ميجا)</small>
+                    </div>
+                    <input type="file" asp-for="ReportUrl" class="form-control" required />
+                    <span asp-validation-for="ReportUrl" class="text-danger d-block"></span>
+                </div>
+            </div>
+
+            <div class="col-12 pt-5">
+                <input type="submit" value="حفظ" class="btn btn-primary" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const startDateInput = document.getElementById('StartDate');
+            const endDateInput = document.getElementById('EndDate');
+            const offDaysCountInput = document.getElementById('OffDaysCount');
+            // const ReportUrlInput = document.getElementById('ReportUrl');
+			 // const EntitlementTypeId = document.querySelector('select#EntitlementTypeId');
+    //          const TaskId = document.getElementById('select#TaskId');
+    //         const CountryId = document.getElementById('select#CountryId');
+                const form = document.getElementById('creationForm');
+
+            // Function to check if a day is Friday (5) or Saturday (6)
+            function isWeekend(date) {
+                const day = date.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+                return day === 5 || day === 6; // Friday = 5, Saturday = 6
+            }
+
+            // Function to calculate the difference between two dates, excluding weekends
+            function calculateOffDaysCount(startDate, endDate) {
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                let count = 0;
+
+                // Loop through each day between start and end dates
+                for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
+                    if (!isWeekend(date)) {
+                        count++; // Increment count if it's not a weekend
+                    }
+                }
+
+                return count;
+            }
+
+            // Validate EndDate and calculate OffDaysCount
+            function validateAndCalculate() {
+                const startDate = startDateInput.value;
+                const endDate = endDateInput.value;
+
+                if (startDate && endDate) {
+                    const start = new Date(startDate);
+                    const end = new Date(endDate);
+
+                    // Ensure EndDate is after StartDate
+                    if (end < start) {
+                                Swal.fire('خطأ!','تاريخ النهاية يجب أن يكون بعد تاريخ البداية.','error');
+                            endDateInput.value = ''; // Clear the EndDate input
+                        offDaysCountInput.value = ''; // Clear the OffDaysCount input
+                        return false; // Prevent form submission
+                    }
+
+                    // Calculate OffDaysCount, excluding weekends
+                    const offDaysCount = calculateOffDaysCount(startDate, endDate);
+                    offDaysCountInput.value = offDaysCount;
+                }
+                return true; // Allow form submission
+            }
+    //         function validateReportAndDropDowns() {
+    //             if(ReportUrlInput.value == null || ReportUrlInput.value ==""){
+    //                 Swal.fire('خطأ!','يجب ارفاق التقرير.','error');
+    //                 return false;
+    //             }
+				// if(EntitlementTypeId.value == null){
+				// 	Swal.fire('خطأ!','يجب اختيار نوع الاستحقاق.','error');
+				// 	return false;
+				// }
+				// if(TaskId.value == null){
+				//     Swal.fire('خطأ!','يجب اختيار المهمة.','error');
+				//     return false;
+    //             }
+				// if(CountryId.value == null){
+				// 	Swal.fire('خطأ!','يجب اختيار الدولة.','error');
+				// 	return false;
+    //             }
+    //         }
+
+            // Attach event listeners
+            startDateInput.addEventListener('change', validateAndCalculate);
+            endDateInput.addEventListener('change', validateAndCalculate);
+
+            // Validate before form submission
+            form.addEventListener('submit', function (event) {
+                if (!validateAndCalculate()) {
+                    event.preventDefault(); // Prevent form submission if validation fails
+                }
+            });
+        });
+    </script>
+}

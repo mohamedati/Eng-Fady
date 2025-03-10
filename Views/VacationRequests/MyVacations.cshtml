@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewData["Title"] = "اجازاتى";
+
+}
+@model ICollection<VacationRequest> 
+@using System.Globalization
+@{
+    CultureInfo cultureInfo = new CultureInfo("ar-EG");
+    Thread.CurrentThread.CurrentCulture = cultureInfo;
+    Thread.CurrentThread.CurrentUICulture = cultureInfo;
+}
+
+<link rel="stylesheet" href="assets/css/bootstrap-rtl.min.css">
+<link rel="stylesheet" href="assets/css/admin.css">
+<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/admin-responsive.css">
+<link href="assets/fonts/remixicon.css" rel="stylesheet" />
+<input type="hidden" id="currentVacation" />
+<table id="file-datatable" class="table table-striped table-bordered text-nowrap key-buttons border-bottom datatable ">
+   
+    <thead>
+        <tr>
+            <th>
+                تاريخ البداية
+            </th>
+            <th>
+                تاريخ النهاية
+            </th>
+            <th>
+                عدد الأيام
+            </th>
+
+      
+            <th>
+                نوع الاجازة
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => @item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OffDaysCount)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.VacationType.Name)
+                </td>
+                <td class="d-flex justify-content-center " style="gap:10px">
+
+
+                    <button 
+                       data-id="@item.Id" onclick="setCurrentVacation(@item.Id,this)" class="btn btn-sm btn btn btn-danger btn-wave waves-effect waves-light cancel"
+                            title="cancel" data-bs-target="#confirmCancelModal" data-bs-toggle="modal" style="display:@(item.Status==(int)clsEnum.VacationRequestStatus.ملغى ?"none" :"flex")">
+                    الغاء</button>
+
+                    <button data-id="@item.Id" onclick="setCurrentVacation(@item.Id,this);GetVacationRequestStatusHistory()" class="btn btn-sm btn btn btn-danger btn-wave waves-effect waves-light"
+                            data-toggle="modal" data-popup-open="VacationRequestStatus">
+                        عرض حالة الطلب
+                    </button>
+             
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<!-- popup VacationRequestStatus -->
+<div class="popup" data-popup="VacationRequestStatus">
+    <div class="popup-inner">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>نوع الأجازة</th>
+                    
+                        <th>تاريخ البداية</th>
+                        <th>تاريخ النهاية </th>
+                        <th>عدد الأيام </th>
+                        <th>الحالة</th>
+                        <th>التاريخ</th>
+                      
+                    </tr>
+                </thead>
+                <tbody class="VacationRequestStatus">
+               
+                </tbody>
+            </table>
+
+            <!-- pagination -->
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">السابق</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">التالى</a>
+                </li>
+            </ul>
+
+            <!-- pagination -->
+        </div>
+    </div>
+</div>
+<script src="assets/js/jquery-3.3.1.slim.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/admin-scripts.js"></script>
+<script src="assets/js/sweetalert2@11.js"></script>
+<script>
+        function GetVacationRequestStatusHistory(){
+
+          $.ajax({
+              method:'POST',
+              url:'/VacationRequests/GetRequestHistory',
+              data:{id:$("#currentVacation").val()},
+              success:function(result){
+                    if(result.success){
+     
+                        for(var i=0;i<result.data.length;i++){
+                            $("tbody.VacationRequestStatus")
+                            .append("<tr><td>"+result.data[i].name+"</td> <td>"+result.data[i].startDate+"</td>  <td>"+result.data[i].endDate+"</td> <td>"+result.data[i].offDaysCount+"</td>  <td>"+result.data[i].status+"</td>  <td>"+result.data[i].date+"</td>  </tr>")
+                        }
+                      } else {
+                          Swal.fire('خطأ!', response.message || 'تعذر الغاء العنصر. الرجاء المحاولة مرة أخرى.', 'error');
+                      }
+
+                }
+          })
+    }
+</script>
+
+
+
+
+
+
+

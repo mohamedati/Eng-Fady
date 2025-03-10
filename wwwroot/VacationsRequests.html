@@ -1,0 +1,322 @@
+<!DOCTYPY html>
+  <html>
+
+  <head>
+    <title>الأجازات</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- css -->
+    <link rel="stylesheet" href="assets/css/bootstrap-rtl.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/admin-responsive.css">
+    <link href="assets/fonts/remixicon.css" rel="stylesheet" />
+    <!-- css -->
+
+  </head>
+
+  <body>
+    <!-- header -->
+    <header>
+      <ul class="header-icons">
+        <li title=""><a><i class="fa fa-gear"></i></a></li>
+        <li title=""><a><i class="fa fa-phone"></i></a></li>
+        <li title=""><a><i class="fa fa-envelope"></i></a></li>
+        <li title=""><a><i class="fa fa-bell"></i></a></li>
+        <li class="lang" title=""><a><i class="ri-global-line"></i></a></li>
+      </ul>
+      <div class="header-user" id="userMenu">
+        <img src="assets/img/user.png" alt="User Avatar">
+        <span class="caret"></span>
+        
+        <div class="dropdown-menu" id="dropdownMenu">
+          <ul>
+            <li><i class="ri-user-line"></i><a href="#profile">اسم المستخدم</a></li>
+            <li><i class="ri-logout-box-r-line"></i><a href="#logout">تسجيل الخروج</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <!-- header -->
+
+    <!-- main -->
+    <main class="start">
+      <div class="dashboard">
+
+        <!-- aside -->
+
+        <aside>
+          <nav>
+            <a class="admin-logo" href=""><img src="assets/img/admin-logo.jpg" /></a>
+            <ul class="admin-nav">
+              <li class="nav-active"><a href="" class="homepage">
+                  <i class="ri-home-9-line"></i>
+                  الرئيسية</a></li>
+              <li>
+                <a role="button" aria-haspopup="true" aria-expanded="false">
+                  <i class="ri-spy-line"></i>
+                  طلبات الأجازات
+                  <span class="caret"></span></a>
+                <ul>
+                  <li><a href=""><i class="fa fa-file-text" aria-hidden="true"></i>جميع الطلبات</a></li>
+                  <li><a href=""><i class="fa fa-file-text" aria-hidden="true"></i>طلب أجازة إعتيادية</a></li>
+                  <li><a href=""><i class="fa fa-file-text" aria-hidden="true"></i>طلب أجازة مرضية</a></li>
+                  <li><a href=""><i class="fa fa-file-text" aria-hidden="true"></i>طلب أجازة وفاة</a></li>
+                  <li><a href=""><i class="fa fa-file-text" aria-hidden="true"></i>طلب أجازة مولود</a></li>
+                  <li><a href=""><i class="fa fa-file-text" aria-hidden="true"></i>طلب تمديد الأجازة</a></li>
+                  <li><a href=""><i class="fa fa-file-text" aria-hidden="true"></i>طلب اضافة الأجازة</a></li>
+                </ul>
+              </li>
+              <li><a class="link"><i class="ri-bank-line"></i>تعريف راتب</a></li>
+              <li><a class="link"><i class="ri-ball-pen-line"></i>إفادة عمل</a></li>
+            </ul>
+          </nav>
+        </aside>
+        <!-- aside -->
+
+        <!-- main-section -->
+        <section class="main-section">
+          <div class="main-content">
+            <!-- head -->
+            <div class="table-head">
+              <h3 class="page-title"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>طلبات الأجازات</h3>
+
+              <div class="btns">
+                <button type="button" class="btn btn-primary table-add-new" data-toggle="modal"
+                  data-popup-open="vacations-add"><i class="fa fa-plus"></i><span>أضف جديد</span></button>
+              </div>
+
+              <!-- popup add -->
+              <div class="popup" data-popup="vacations-add">
+                <div class="popup-inner">
+                  <h2>أضف طلب جديد</h2>
+                  <form class="" action="" method="post">
+                    <div class="form-group">
+                      <label for="">نوع الأجازة</label>
+                      <select id="inputState" class="form-control">
+                        <option selected disabled></option>
+                        <option>أجازة اعتيادية</option>
+                        <option>أجازة سنوية</option>
+                      </select>
+                    </div>
+                    <div class="alert alert-danger" role="alert">
+                      هذا الحقل مطلوب
+                    </div>
+                    <div class="form-group">
+                      <label for="">تفاصيل الأجازة</label>
+                      <textarea name="" class="form-control"></textarea>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 pr-0">
+                        <div class="form-group">
+                          <label for="">تاريخ البداية</label>
+                          <input type="date" class="form-control" placeholder="تاريخ البداية">
+                        </div>
+                      </div>
+                      <div class="col-md-6 pl-0">
+                        <div class="form-group">
+                          <label for="">تاريخ النهاية</label>
+                          <input type="date" class="form-control" placeholder="تاريخ النهاية">
+                        </div>
+                      </div>
+                    </div>
+
+                    <button class="popupsend">
+                      <i class="ri-cloud-line"></i>
+                      حفظ
+                    </button>
+                    <button class="popup-close" data-popup-close="client-add">
+                      <i class="ri-close-line"></i>
+                      إلغاء
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <!-- popup -->
+
+            </div>
+            <!-- head -->
+            <!-- table -->
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>نوع الأجازة</th>
+                    <th>تفاصيل الأجازة </th>
+                    <th>رصيد الأجازات </th>
+                    <th>تاريخ البداية</th>
+                    <th>تاريخ النهاية </th>
+                    <th>عدد الأيام </th>
+                    <th>تعديل</th>
+                    <th>حذف</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>أجازة إعتيادية </td>
+                    <td>التفاصيل الخاصة بالأجازة</td>
+                    <td>124</td>
+                    <td>1/4/2025 </td>
+                    <td>1/10/2025 </td>
+                    <td>9 </td>
+                    <td>
+                      <a><i class="fa fa-edit" data-toggle="modal" data-popup-open="vacations-edit"></i></a>
+                      <!-- popup edit -->
+                      <div class="popup" data-popup="vacations-edit">
+                        <div class="popup-inner">
+                          <h2>تعديل الطلب</h2>
+                          <form class="" action="" method="post">
+                            <div class="form-group">
+                              <label for="">نوع الأجازة</label>
+                              <select id="inputState" class="form-control">
+                                <option selected disabled></option>
+                                <option>أجازة اعتيادية</option>
+                                <option>أجازة سنوية</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="">تفاصيل الأجازة</label>
+                              <textarea name="" class="form-control"></textarea>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6 pr-0">
+                                <div class="form-group">
+                                  <label for="">تاريخ البداية</label>
+                                  <input type="date" class="form-control" placeholder="تاريخ البداية">
+                                </div>
+                              </div>
+                              <div class="col-md-6 pl-0">
+                                <div class="form-group">
+                                  <label for="">تاريخ النهاية</label>
+                                  <input type="date" class="form-control" placeholder="تاريخ النهاية">
+                                </div>
+                              </div>
+                            </div>
+
+                            <button class="popupsend">
+                              <i class="ri-cloud-line"></i>
+                              حفظ
+                            </button>
+                            <button class="popup-close" data-popup-close="client-add">
+                              <i class="ri-close-line"></i>
+                              إلغاء
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                      <!-- popup -->
+
+                    </td>
+                    <td class="delete-td"><a href="#" data-swal="هل تريد بالفعل حذف العنصر ؟"><i
+                          class="ri-delete-bin-5-line" aria-hidden="true"></i></a></td>
+                  </tr>
+                  <tr>
+                    <td>أجازة إعتيادية </td>
+                    <td>التفاصيل الخاصة بالأجازة</td>
+                    <td>124</td>
+                    <td>1/4/2025 </td>
+                    <td>1/10/2025 </td>
+                    <td>9 </td>
+                    <td><a href=""><i class="fa fa-edit"></i></a></td>
+
+
+                    <td class="delete-td"><a href="#" data-swal="هل تريد بالفعل حذف العنصر ؟"><i
+                          class="ri-delete-bin-5-line" aria-hidden="true"></i></a></td>
+                  </tr>
+                  <tr>
+                    <td>أجازة إعتيادية </td>
+                    <td>التفاصيل الخاصة بالأجازة</td>
+                    <td>124</td>
+                    <td>1/4/2025 </td>
+                    <td>1/10/2025 </td>
+                    <td>9 </td>
+                    <td><a href=""><i class="fa fa-edit"></i></a></td>
+                    <td class="delete-td"><a href="#" data-swal="هل تريد بالفعل حذف العنصر ؟"><i
+                          class="ri-delete-bin-5-line" aria-hidden="true"></i></a></td>
+                  </tr>
+                  <tr>
+                    <td>أجازة إعتيادية </td>
+                    <td>التفاصيل الخاصة بالأجازة</td>
+                    <td>124</td>
+                    <td>1/4/2025 </td>
+                    <td>1/10/2025 </td>
+                    <td>9 </td>
+                    <td><a href=""><i class="fa fa-edit"></i></a></td>
+                    <td class="delete-td"><a href="#" data-swal="هل تريد بالفعل حذف العنصر ؟"><i
+                          class="ri-delete-bin-5-line" aria-hidden="true"></i></a></td>
+                  </tr>
+                  <tr>
+                    <td>أجازة إعتيادية </td>
+                    <td>التفاصيل الخاصة بالأجازة</td>
+                    <td>124</td>
+                    <td>1/4/2025 </td>
+                    <td>1/10/2025 </td>
+                    <td>9 </td>
+                    <td><a href=""><i class="fa fa-edit"></i></a></td>
+                    <td class="delete-td"><a href="#" data-swal="هل تريد بالفعل حذف العنصر ؟"><i
+                          class="ri-delete-bin-5-line" aria-hidden="true"></i></a></td>
+                  </tr>
+                  <tr>
+                    <td>أجازة إعتيادية </td>
+                    <td>التفاصيل الخاصة بالأجازة</td>
+                    <td>124</td>
+                    <td>1/4/2025 </td>
+                    <td>1/10/2025 </td>
+                    <td>9 </td>
+                    <td><a href=""><i class="fa fa-edit"></i></a></td>
+                    <td class="delete-td"><a href="#" data-swal="هل تريد بالفعل حذف العنصر ؟"><i
+                          class="ri-delete-bin-5-line" aria-hidden="true"></i></a></td>
+                  </tr>
+                  <tr>
+                    <td>أجازة إعتيادية </td>
+                    <td>التفاصيل الخاصة بالأجازة</td>
+                    <td>124</td>
+                    <td>1/4/2025 </td>
+                    <td>1/10/2025 </td>
+                    <td>9 </td>
+                    <td><a href=""><i class="fa fa-edit"></i></a></td>
+                    <td class="delete-td"><a href="#" data-swal="هل تريد بالفعل حذف العنصر ؟"><i
+                          class="ri-delete-bin-5-line" aria-hidden="true"></i></a></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- pagination -->
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">السابق</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">التالى</a>
+                </li>
+              </ul>
+
+              <!-- pagination -->
+            </div>
+            <!-- table -->
+
+          </div>
+
+        </section>
+        <!-- main-section -->
+
+        <!-- script -->
+        <script src="assets/js/jquery-3.3.1.slim.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/admin-scripts.js"></script>
+        <script src="assets/js/sweetalert2@11.js"></script>
+        <!-- script -->
+
+    </main>
+    <!-- main -->
+
+  </body>
+
+  </html>

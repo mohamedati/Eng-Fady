@@ -1,0 +1,72 @@
+﻿<script>
+    $(document).ready(function () {
+   
+        $('#creationForm').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var form = $(this)[0]; // Raw DOM form element for validation purposes
+
+            // Check if form is valid before making the AJAX request
+            if (!form.checkValidity()) {
+           
+                $(this).addClass('was-validated');
+                alert("not")// Add Bootstrap validation class to display errors
+                return; // Exit the function if form is invalid
+            }
+
+            // Create a new FormData object to handle file uploads
+            var formData = new FormData(form);
+
+            // Proceed with AJAX request if the form is valid
+            var url = $(this).attr('action');
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: formData,
+                processData: false, // Prevent jQuery from automatically transforming the data into a query string
+                contentType: false, // Ensure that the correct content type (multipart/form-data) is used
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'تم!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonText: 'موافق'
+                        }).then(() => {
+                            // Clear all form fields manually
+                            $(form).find('input[type="text"], input[type="email"],input[type="date"],input[type="password"], input[type="tel"], input[type="number"], textarea').val(''); // Clear text inputs and textareas
+
+                            // Clear img src for elements with 'preview' in their id or name
+                            $(form).find('img').each(function () {
+                                if ($(this).attr('id')?.includes('preview') || $(this).attr('name')?.includes('preview')) {
+                                    $(this).attr('src', ''); // Clear the src attribute
+                                }
+                            });
+
+                            if( $(form).find('select')){
+                            $(form).find('select').prop('selectedIndex', 0); // Reset select elements to first option
+                            $(form).find('.select2').val('').trigger('change'); // Clear Select2 elements specifically
+                            }
+
+
+                            $(form).removeClass('was-validated'); // Remove the validation class
+
+                            // Clear file inputs (if any)
+                            $(form).find('input[type="file"]').val('');
+                        });
+                    } else {
+                        Swal.fire('خطأ!', response.message || 'تعذر إنشاء العنصر. الرجاء المحاولة مرة أخرى.', 'error');
+                    }
+                },
+                error: function () {
+                    Swal.fire('خطأ!', 'حدث خطأ غير متوقع. الرجاء المحاولة لاحقاً.', 'error');
+                }
+            });
+
+
+
+        });
+    });
+
+</script>

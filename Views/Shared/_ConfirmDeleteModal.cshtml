@@ -1,0 +1,521 @@
+﻿@using System.Globalization
+@{
+    CultureInfo cultureInfo = new CultureInfo("ar-EG");
+    Thread.CurrentThread.CurrentCulture = cultureInfo;
+    Thread.CurrentThread.CurrentUICulture = cultureInfo;
+}
+
+
+<!-- Start confirm delete modal -->
+<input type="hidden" id="hiddenItemId" name="hiddenItemId" />
+<input type="hidden" id="hiddenUrl" name="hiddenUrl" />
+
+<div class="modal fade" id="confirmDeleteModal">
+    <div class="modal-dialog" role="document">
+        @if (cultureInfo.Name.Contains("en"))
+        {
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Attention </h6>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <span class=""><svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 24 24"><path fill="#f07f8f" d="M20.05713,22H3.94287A3.02288,3.02288,0,0,1,1.3252,17.46631L9.38232,3.51123a3.02272,3.02272,0,0,1,5.23536,0L22.6748,17.46631A3.02288,3.02288,0,0,1,20.05713,22Z"></path><circle cx="12" cy="17" r="1" fill="#e62a45"></circle><path fill="#e62a45" d="M12,14a1,1,0,0,1-1-1V9a1,1,0,0,1,2,0v4A1,1,0,0,1,12,14Z"></path></svg></span>
+                    <h4 class="h4 mb-0 mt-3">Attention</h4>
+                    <div class="divider mt-5"></div>
+                    <p class="card-text">You are about to delete this item <br />Are you sure?</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <a href="javascript:void(0)" class="btn btn-danger" onclick="DeleteItem();" data-bs-dismiss="modal">Delete</a>
+                        <a href="javascript:void(0)" class="btn btn-white me-2" data-bs-dismiss="modal">Cancel</a>
+
+                    </div>
+
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">تنبية </h6>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <span class=""><svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 24 24"><path fill="#f07f8f" d="M20.05713,22H3.94287A3.02288,3.02288,0,0,1,1.3252,17.46631L9.38232,3.51123a3.02272,3.02272,0,0,1,5.23536,0L22.6748,17.46631A3.02288,3.02288,0,0,1,20.05713,22Z"></path><circle cx="12" cy="17" r="1" fill="#e62a45"></circle><path fill="#e62a45" d="M12,14a1,1,0,0,1-1-1V9a1,1,0,0,1,2,0v4A1,1,0,0,1,12,14Z"></path></svg></span>
+                    <h4 class="h4 mb-0 mt-3">تنبية</h4>
+                    <div class="divider mt-5"></div>
+                    <p class="card-text">انت على وشك حذف هذا العنصر <br />هل انت متأكد من رغبتك فى استكمال عملية الحذف؟</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <a href="javascript:void(0)" class="btn btn-danger" onclick="DeleteItem();" data-bs-dismiss="modal">حذف</a>
+                        <a href="javascript:void(0)" class="btn btn-white me-2" data-bs-dismiss="modal">الغاء</a>
+
+                    </div>
+
+                </div>
+            </div>
+
+        }
+
+    </div>
+</div>
+
+<div class="modal fade" id="confirmCancelModal">
+    <div class="modal-dialog" role="document">
+        @if (cultureInfo.Name.Contains("en"))
+        {
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Attention </h6>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <span class=""><svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 24 24"><path fill="#f07f8f" d="M20.05713,22H3.94287A3.02288,3.02288,0,0,1,1.3252,17.46631L9.38232,3.51123a3.02272,3.02272,0,0,1,5.23536,0L22.6748,17.46631A3.02288,3.02288,0,0,1,20.05713,22Z"></path><circle cx="12" cy="17" r="1" fill="#e62a45"></circle><path fill="#e62a45" d="M12,14a1,1,0,0,1-1-1V9a1,1,0,0,1,2,0v4A1,1,0,0,1,12,14Z"></path></svg></span>
+                    <h4 class="h4 mb-0 mt-3">Attention</h4>
+
+                    <div class="divider mt-5">
+                    </div>
+                    <p class="card-text">You are about to Cancel this item <br />Are you sure?</p>
+                    <div>
+                        <label class="d-flex">Enter Cancellation Reason</label>
+                        <textarea class="form-control" style="width:100%"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <button class="btn btn-danger" onclick="CancelItem();" data-bs-dismiss="modal">
+                            Cancel Vacation</button>
+                        <a href="javascript:void(0)" class="btn btn-white me-2" data-bs-dismiss="modal">Close</a>
+
+                    </div>
+
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">تنبية </h6>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <span class=""><svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 24 24"><path fill="#f07f8f" d="M20.05713,22H3.94287A3.02288,3.02288,0,0,1,1.3252,17.46631L9.38232,3.51123a3.02272,3.02272,0,0,1,5.23536,0L22.6748,17.46631A3.02288,3.02288,0,0,1,20.05713,22Z"></path><circle cx="12" cy="17" r="1" fill="#e62a45"></circle><path fill="#e62a45" d="M12,14a1,1,0,0,1-1-1V9a1,1,0,0,1,2,0v4A1,1,0,0,1,12,14Z"></path></svg></span>
+                    <h4 class="h4 mb-0 mt-3">تنبية</h4>
+
+                    <div class="divider mt-5"></div>
+                    <p class="card-text">انت على وشك الغاء هذا العنصر <br />هل انت متأكد من رغبتك فى استكمال عملية الالغاء؟</p>
+                    <div>
+                        <label class="d-flex">ادخل سبب الالغاء</label>
+                        <textarea class="form-control" style="width:100%"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <button class="btn btn-danger" onclick="CancelItem();" data-bs-dismiss="modal">الغاء الاجازة</button>
+                        <a href="javascript:void(0)" class="btn btn-white me-2" data-bs-dismiss="modal">غلق</a>
+
+                    </div>
+
+                </div>
+            </div>
+
+        }
+
+    </div>
+</div>
+<style>
+    .colored-toast.swal2-icon-success {
+        background-color: green !important;
+    }
+
+    .colored-toast.swal2-icon-error {
+        background-color: red !important;
+    }
+
+    .colored-toast.swal2-icon-warning {
+        background-color: orange !important;
+    }
+
+    .colored-toast.swal2-icon-info {
+        background-color: #3fc3ee !important;
+    }
+
+    .colored-toast.swal2-icon-question {
+        background-color: #87adbd !important;
+    }
+
+    .colored-toast .swal2-title {
+        color: black;
+    }
+
+    .colored-toast .swal2-close {
+        color: black;
+    }
+
+    .colored-toast .swal2-html-container {
+        color: black;
+    }
+
+    .swal-toast-content {
+        display: inline-flex;
+    }
+
+    .swal-toast-text {
+        padding-left: 5px;
+    }
+</style>
+<link href="~/backend/assets/plugins/sweet-alert/css/colored-toasts.css" rel="stylesheet" />
+
+<!-- SWEET-ALERT JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="~/backend/assets/plugins/sweet-alert/colored-toasts.js"></script>
+
+
+
+
+<!-- End confirm delete modal -->
+<script>
+
+
+    function confirmMessageTimer() {
+        let timerInterval
+        Swal.fire({
+            //  position: 'center',
+            title: 'Congratulations',
+            text: 'Your data have been succesfully saved',
+            //  html: 'Your data have been succesfully saved </br>I will close in <b></b> milliseconds.',
+            timer: 3000,
+            icon: 'success',
+            showConfirmButton: true,
+            confirmButtonText: 'OK',
+            timerProgressBar: true,
+
+            didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                    b.textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        })
+    }
+
+    function confirmMessage() {
+        window.showExample = async () => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-right',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast'
+                },
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true
+            })
+            await Toast.fire({
+                icon: 'success',
+                title: 'Success'
+            })
+            //await Toast.fire({
+            //    icon: 'error',
+            //    title: 'Error'
+            //})
+            //await Toast.fire({
+            //    icon: 'warning',
+            //    title: 'Warning'
+            //})
+            //await Toast.fire({
+            //    icon: 'info',
+            //    title: 'Info'
+            //})
+            //await Toast.fire({
+            //    icon: 'question',
+            //    title: 'Question'
+            //})
+        }
+
+        // Call the showExample function
+        window.showExample();
+    }
+
+    function showErrorMessage(message) {
+        window.showExample = async () => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-right',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast'
+                },
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true
+            })
+            //await Toast.fire({
+            //    icon: 'success',
+            //    title: 'Success'
+            //})
+            await Toast.fire({
+                icon: 'error',
+                title: message
+            })
+            //await Toast.fire({
+            //    icon: 'warning',
+            //    title: 'Warning'
+            //})
+            //await Toast.fire({
+            //    icon: 'info',
+            //    title: 'Info'
+            //})
+            //await Toast.fire({
+            //    icon: 'question',
+            //    title: 'Question'
+            //})
+        }
+
+        // Call the showExample function
+        window.showExample();
+    }
+    function showTotastMessage(type, message, callback) {
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        document.body.appendChild(overlay);
+
+        async function showExample() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-right',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast'
+                },
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                willOpen: () => {
+                    overlay.style.display = 'block';
+                },
+                didClose: () => {
+                    overlay.style.display = 'none';
+                    document.body.removeChild(overlay); // Clean up the overlay
+                    if (callback && typeof callback === 'function') {
+                        callback(); // Execute the callback after the toast is closed
+                    }
+                }
+            });
+
+            switch (type) {
+                case 'success':
+                    await Toast.fire({
+                        icon: 'success',
+                        title: message
+                    });
+                    break;
+
+                case 'error':
+                    await Toast.fire({
+                        icon: 'error',
+                        title: message
+                    });
+                    break;
+
+                case 'warning':
+                    await Toast.fire({
+                        icon: 'warning',
+                        title: message
+                    });
+                    break;
+
+                case 'question':
+                    await Toast.fire({
+                        icon: 'question',
+                        title: message
+                    });
+                    break;
+
+                default:
+                    await Toast.fire({
+                        icon: 'info',
+                        title: 'Info'
+                    });
+                    break;
+            }
+        }
+
+      showExample();
+    }
+
+  
+     function fillRequiredDataForDelete(_itemId, _url) {
+        $("#hiddenItemId").val(_itemId);
+        $("#hiddenUrl").val(_url);
+    }
+
+    /* Start Delete Confirm Pop up */
+    function fillRequiredDataForDelete(_itemId, _url) {
+        $("#hiddenItemId").val(_itemId);
+        $("#hiddenUrl").val(_url);
+    }
+
+    var DeleteItem = function () {
+        var _itemId = $("#hiddenItemId").val();
+        var _url = $("#hiddenUrl").val();
+
+        $.ajax({
+            type: "POST",
+            url: _url,
+            data: { id: _itemId },
+            success: function (result) {
+                if (result.success) {
+                    // Operation was successful
+
+                    var table = $('.datatable').DataTable();
+                    table.row($("#row_" + _itemId)).remove().draw();
+                    reorderTable(); // Call the reorderTable function
+
+                    findAndDeleteListItemById(_itemId);
+                    showTotastMessage('success', 'تم حذف العنصر بنجاح');
+                }
+                else {
+                    // Operation failed
+                    // showErrorMessage(result.errorMessage);
+                    showTotastMessage('error', result.errorMessage);
+                }
+            }
+
+        });
+    }
+
+    function reorderTable() {
+        var table = $('.datatable').DataTable();
+        table
+            .rows()
+            .every(function (rowIdx) {
+                var data = this.data();
+                var newId = rowIdx + 1; // Update the identity value
+                this.cell(rowIdx, 0).data(newId); // Update the first column with the new ID
+            })
+            .draw();
+    }
+
+    function findAndDeleteListItemById(itemId) {
+        var liId = "row_" + itemId;
+        var liElement = document.getElementById(liId);
+
+        if (liElement) {
+            liElement.remove();
+            console.log("Element with ID", itemId, "has been removed.");
+        } else {
+            console.log("Element with ID", itemId, "not found.");
+        }
+
+        // After deleting the item, reorder the remaining <li> elements
+        // reorderListItems();
+    }
+    function reorderListItems() {
+        var listItems = $('.notification li');
+
+        // Reorder the list items based on their current index
+        listItems.each(function (index) {
+            $(this).text('Item ' + (index + 1));
+        });
+    }
+
+
+        /* Fill data to Cencel vacation*/
+       function setCurrentVacation(id){
+       
+        $("#currentVacation").val(id)
+
+       }
+
+        function CancelItem(){
+           
+          $.ajax({
+              method:'POST',
+              url:'/VacationRequests/Cancel',
+              data:{id:$("#currentVacation").val(),Reason:$("textarea.form-control").val()=="" ?null :$("textarea.form-control").val()},
+              success:function(result){
+                    if(result.success){
+       Swal.fire({
+                                title: 'تم!',
+                                text: result.message,
+                                icon: 'success',
+                                confirmButtonText: 'موافق'
+                            })
+                           $("button.cancel[data-id="+$("#currentVacation").val()+"]").hide();
+                      } else {
+                          Swal.fire('خطأ!', response.message || 'تعذر الغاء العنصر. الرجاء المحاولة مرة أخرى.', 'error');
+                      }
+                        
+                }
+          })
+    }
+    /* End Cancel Confirm Pop up */
+
+</script>
+
+<style>
+    .swal-title {
+        margin: 0px;
+        font-size: 16px;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.21);
+        padding-bottom: 10px;
+    }
+
+    .custom-error-container {
+        width: 300px;
+        height: 150px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+        .custom-error-container .swal-title {
+            font-size: 20px;
+            color: #ff0000;
+        }
+
+        .custom-error-container .swal-content {
+            font-size: 16px;
+            color: #333333;
+        }
+
+        .custom-error-container .swal-button {
+            background-color: #ff0000;
+            color: #ffffff;
+            border-radius: 4px;
+        }
+
+            .custom-error-container .swal-button:hover {
+                background-color: #cc0000;
+            }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+        z-index: 9998; /* Ensure it is below the toast notification */
+        display: none; /* Hidden by default */
+    }
+</style>
+
